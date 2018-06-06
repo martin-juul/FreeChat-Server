@@ -1,7 +1,7 @@
 {
   "name": "freechat-backend",
   "version": "0.0.1",
-  "description": "Backend Server for FreeChat",
+  "description": "Backend Message Server for FreeChat",
   "author": "Martin Juul <code@juul.xyz>",
   "private": true,
   "scripts": {
