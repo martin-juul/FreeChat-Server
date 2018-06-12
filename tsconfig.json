@@ -1,9 +1,18 @@
 {
-  "files": [
-    "src/*.ts",
-    "src/model/*.ts"
-  ],
   "compilerOptions": {
-    "target": "es5"
-  }
+    "target": "es5",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "lib": [
+      "es5",
+      "es6"
+    ],
+    "outDir": "dist/"
+  },
+  "include": [
+    "src/**/*"
+  ]
 }
