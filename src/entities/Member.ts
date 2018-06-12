@@ -1,4 +1,5 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { GlobalPermission } from '../model/Permission';
 
 @Entity()
 export class Member
@@ -14,6 +15,13 @@ export class Member
         length: 6
     })
     color?: string;
+
+    @Column({
+        type: 'enum',
+        enum: GlobalPermission,
+        default: 'MEMBER'
+    })
+    role: GlobalPermission;
 
     @Column({
         nullable: true
