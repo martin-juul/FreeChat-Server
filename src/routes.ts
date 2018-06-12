@@ -1,5 +1,6 @@
-import { getChatRooms } from './controllers/ChatController';
 import { Request, Response } from 'express';
+import { AuthController } from './controllers/AuthController';
+import { ChatController } from './controllers/ChatController';
 
 export interface Route
 {
@@ -9,5 +10,7 @@ export interface Route
 }
 
 export const AppRoutes: Route[] = [
-    { path: '/chat/rooms', method: 'get', action: getChatRooms }
+    { path: '/auth', method: 'post', action: AuthController.postCreateToken },
+    { path: '/auth/validate', method: 'post', action: AuthController.postCreateToken },
+    { path: '/chat/rooms', method: 'get', action: ChatController.getChatRooms },
 ];

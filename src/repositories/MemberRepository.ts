@@ -1,21 +1,30 @@
 import { EntityRepository, getConnection, Repository } from 'typeorm';
 import { AuthToken } from '../entities/AuthToken';
 import { Member } from '../entities/Member';
+import { ITokenRequest } from '../model/requests/ITokenRequest';
 
 @EntityRepository(Member)
 export class MemberRepository extends Repository<Member>
 {
-    async validateToken(userId: string, authToken: string, ip: string) {
-        const queryRunner = await this.getQueryRunner();
+    async validateToken(tokenRequest: ITokenRequest) {
 
-        const user = await queryRunner.manager.findOne(Member, { id: userId });
-        const token = await user.authTokens.find(x => x.id == authToken);
+        const user = await this.findOne( { id: tokenRequest.authToken });
+        const token = await user.authTokens.find(x => x.id == tokenRequest.authToken);
 
-        return token.ip === ip;
+        return token.ip === tokenRequest.ip;
+    }
+
+    async deleteToken(authToken: string): Promise<void> {
+        await getConnection()
+            .createQueryBuilder()
+            .delete()
+            .from(AuthToken)
+            .where("id = :id", {id: authToken})
+            .execute();
     }
 
 
-    async createAuthToken(userId: string) {
+    async createAuthToken(userId: string): Promise<AuthToken> {
         const queryRunner = await this.getQueryRunner();
 
         const user = await queryRunner.manager.findOne(Member, { id: userId });
@@ -30,6 +39,8 @@ export class MemberRepository extends Repository<Member>
             console.log('[MemberRepository](createAuthToken)', err);
             await queryRunner.rollbackTransaction();
         }
+
+        return await token;
     }
 
     private async getQueryRunner() {
