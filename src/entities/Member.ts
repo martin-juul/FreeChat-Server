@@ -1,5 +1,6 @@
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { GlobalPermission } from '../model/Permission';
+import { AuthToken } from './AuthToken';
 import { ChatRoomPermission } from './ChatRoomPermission';
 
 @Entity()
@@ -26,6 +27,9 @@ export class Member
 
     @OneToMany(type => ChatRoomPermission, chatRootPermission => chatRootPermission.member)
     chatRoomPermissions?: ChatRoomPermission[];
+
+    @OneToMany(type => AuthToken, authToken => authToken.member)
+    authTokens: AuthToken[];
 
     @Column({
         nullable: true
