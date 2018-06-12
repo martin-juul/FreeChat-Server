@@ -10,5 +10,6 @@ export enum ChannelPermission
     MUTE,
     KICK,
     BAN,
-    CHANGE_COLOR
+    CHANGE_COLOR,
+    JOIN
 }
