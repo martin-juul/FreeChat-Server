@@ -2,8 +2,8 @@ import * as bodyParser from 'body-parser';
 import * as express from 'express';
 import { Request, Response } from 'express';
 import * as socketIo from 'socket.io';
-import { createConnection } from 'typeorm';
-import { ChatRoomRepository } from './repositories/ChatRoomRepository';
+import { createConnection, getRepository } from 'typeorm';
+import { ChatRoom } from './entities/ChatRoom';
 import { AppRoutes } from './routes';
 import { Sockets } from './sockets';
 
@@ -49,8 +49,9 @@ createConnection().then(async connection => {
 
     // Initialize rooms
     const chatSockets = new Sockets(io);
-    const chatRoomRepository = new ChatRoomRepository();
-    chatSockets.listen(chatRoomRepository.getRooms());
+    const chatRoomRepository = await getRepository(ChatRoom);
+
+    chatSockets.listen(await chatRoomRepository.find());
 }).catch(error =>
     console.error('TypeORM connection error: ', error)
 );

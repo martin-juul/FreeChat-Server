@@ -7,7 +7,7 @@
   "scripts": {
     "build": "gulp build",
     "serve": "node dist/server.js",
-    "dev": "ts-node-dev --fast --respawn ./src/index.ts"
+    "dev": "ts-node-dev --fast --respawn --notify=false ./src/index.ts"
   },
   "dependencies": {
     "@types/socket.io": "^1.4.34",

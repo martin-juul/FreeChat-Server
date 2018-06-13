@@ -1,6 +1,6 @@
 import * as SocketIO from 'socket.io';
 import { Message } from './model/Message';
-import { ChatRoom } from './model/ChatRoom';
+import { ChatRoom } from './entities/ChatRoom';
 
 export class Sockets
 {

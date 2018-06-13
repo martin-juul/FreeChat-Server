@@ -11,6 +11,7 @@ export interface Route
 
 export const AppRoutes: Route[] = [
     { path: '/auth', method: 'post', action: AuthController.postCreateToken },
-    { path: '/auth/validate', method: 'post', action: AuthController.postCreateToken },
+    { path: '/auth/validate', method: 'post', action: AuthController.postValidateToken },
     { path: '/chat/rooms', method: 'get', action: ChatController.getChatRooms },
+    { path: '/chat/rooms', method: 'post', action: ChatController.postCreateChatRoom }
 ];
