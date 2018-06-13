@@ -8,7 +8,7 @@ export namespace AuthController
 {
     export async function postCreateToken(request: Request, response: Response) {
         try {
-            const tokenRequest: ITokenRequest = <ITokenRequest>request.params;
+            const tokenRequest: ITokenRequest = <ITokenRequest>request.body;
             const memberRepository = getCustomRepository(MemberRepository);
 
             memberRepository.createAuthToken(tokenRequest.userId).then((token: AuthToken) => {
@@ -26,7 +26,7 @@ export namespace AuthController
 
     export async function postValidateToken(request: Request, response: Response) {
         try {
-            const tokenRequest: ITokenRequest = <ITokenRequest>request.params;
+            const tokenRequest: ITokenRequest = <ITokenRequest>request.body;
             const memberRepository = getCustomRepository(MemberRepository);
 
             if (memberRepository.validateToken(tokenRequest)) {
