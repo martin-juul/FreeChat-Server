@@ -10,13 +10,17 @@
     "dev": "ts-node-dev --fast --respawn --notify=false ./src/index.ts"
   },
   "dependencies": {
+    "@types/redis": "^2.8.6",
     "@types/socket.io": "^1.4.34",
+    "@types/socket.io-redis": "^1.0.25",
     "body-parser": "^1.18.3",
     "express": "^4.16.3",
-    "socket.io": "^2.1.1",
-    "typeorm": "^0.2.7",
+    "pg": "^7.4.3",
+    "redis": "^2.8.0",
     "reflect-metadata": "^0.1.12",
-    "pg": "^7.4.3"
+    "socket.io": "^2.1.1",
+    "socket.io-redis": "^5.2.0",
+    "typeorm": "^0.2.7"
   },
   "devDependencies": {
     "@types/express": "^4.16.0",
