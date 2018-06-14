@@ -66,10 +66,4 @@ export class Sockets
         }
         return text;
     }
-
-    protected emitEvent(event: string, listener?: (...args: any[]) => void) {
-        if (!listener) {
-
-        }
-    }
 }
