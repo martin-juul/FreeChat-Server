@@ -2,12 +2,12 @@ import * as bodyParser from 'body-parser';
 import * as express from 'express';
 import { Request, Response } from 'express';
 import { createClient } from 'redis';
+import * as sio from 'socket.io';
 import * as redisAdapter from 'socket.io-redis';
 import { createConnection, getRepository } from 'typeorm';
 import { ChatRoom } from './entities/ChatRoom';
 import { AppRoutes } from './routes';
 import { Sockets } from './sockets';
-import SocketIO = require('socket.io');
 
 // create connection pool with postgres
 createConnection().then(async connection => {
@@ -47,7 +47,9 @@ createConnection().then(async connection => {
     });
 
     // Socket.IO
-    const io = SocketIO(server);
+    const io = sio(server, {
+        pingInterval: 1000
+    });
 
     // Socket.IO Redis
     io.adapter(redisAdapter({
