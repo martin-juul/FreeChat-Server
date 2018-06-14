@@ -20,6 +20,7 @@ export class Sockets
             console.log(`[socket][chatRoom](${room.label}): started listening`);
 
             listenRoom.on('connect', socket => {
+                // Todo: Move to get-history event, and call from client.
                 this._redisClient.lrange(`${room.id}:messages`, 0, 100, (err, reply) => {
                     if (reply) {
                         reply.forEach((message) => {
