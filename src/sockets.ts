@@ -21,44 +21,27 @@ export class Sockets
 
             listenRoom.on('connect', socket => {
 
-                // Todo: Move to get-history event, and call from client.
+                // Get chat history from redis, and send to the connected client.
                 this._redisClient.lrange(`${room.id}:messages`, 0, 100, (err, reply) => {
+
                     if (reply) {
                         reply.forEach((message) => {
-                            listenRoom.emit('message', (<Message>JSON.parse(message)));
+                            socket.emit('message', (<Message>JSON.parse(message)));
                         })
-                    }
-
-                    if (err) {
-                        console.error(err);
+                    } else {
+                        console.error(err)
                     }
                 });
-
-                console.log(`[socket][chatRoom](${room.label}): connected client: ${socket.client.conn.id}`);
 
                 socket.on('get-connected-clients', () => {
                     console.log(`[server][chatRoom][${room.label}](message): ${JSON.stringify('')}`);
-                });
-
-                socket.on('history', (start: number, end: number) => {
-                    this._redisClient.lrange(`${room.id}:messages`, start, end, (err, reply) => {
-                        if (reply) {
-                            const messages: Message[] = [];
-                            reply.forEach(message => messages.push(<Message>JSON.parse(message)));
-
-                            listenRoom.emit('history', messages);
-                        }
-                        if (err) {
-                            console.error(err);
-                        }
-                    });
                 });
 
                 socket.on('message', (m: Message) => {
 
                     console.log(`[server][chatRoom][${room.label}](message): ${JSON.stringify(m)}`);
 
-                    // push to rooms chat history
+                    // push to channels chat history
                     if (m.content) {
                         m.content = this.sanitize(m.content);
                         this._redisClient.rpush(`${room.id}:messages`, JSON.stringify(m));
