@@ -17,6 +17,7 @@ export class Sockets
 
         chatRooms.forEach(room => {
             const listenRoom = this._sio.of(room.id);
+            const connectedUsers = [];
             console.log(`[socket][chatRoom](${room.label}): started listening`);
 
             listenRoom.on('connect', socket => {
@@ -33,8 +34,16 @@ export class Sockets
                     }
                 });
 
+                socket.on('client-connected', (user) => {
+                    connectedUsers.push(user);
+                    listenRoom.emit('connected-clients', connectedUsers);
+                    console.log(connectedUsers);
+                });
+
+                // When a client connected, emit connected clients to all participants
                 socket.on('get-connected-clients', () => {
-                    console.log(`[server][chatRoom][${room.label}](message): ${JSON.stringify('')}`);
+                    //console.log(`[server][chatRoom][${room.label}](connected clients):${JSON.stringify(listenRoom.clients(clients => clients))}`);
+
                 });
 
                 socket.on('message', (m: Message) => {
