@@ -2,6 +2,7 @@ import { RedisClient } from 'redis';
 import * as SocketIO from 'socket.io';
 import { ChatRoom } from './entities/ChatRoom';
 import { Message } from './model/Message';
+import { OpenGraphService } from './services/OpenGraphService';
 
 export class Sockets
 {
@@ -71,8 +72,15 @@ export class Sockets
 
     protected sanitize(text: string) {
         if (text.indexOf('<') > -1 || text.indexOf('>') > -1) {
-            return text.replace(/</g, '&lt').replace(/>/g, '&gt');
+            return text.replace(/</g, '&lt').replace(/>/g, '&gt').trim();
         }
         return text;
     }
 }
+
+/*
+    const res = OpenGraphService.scrapeSite('https://facebook.com', function (error, results) {
+        console.log('error:', error); // This is returns true or false. True if there was a error. The error it self is inside the results object.
+        console.log('results:', results.data);
+    });
+ */
